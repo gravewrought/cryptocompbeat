@@ -3,12 +3,14 @@
 
 package config
 
-import "time"
-
 type Config struct {
-	Period time.Duration `config:"period"`
+	Exchange   string `config:"exchange"`
+	SymbolFrom string `config:"symbol_from"`
+	SymbolTo   string `config:"symbol_to"`
 }
 
 var DefaultConfig = Config{
-	Period: 1 * time.Second,
+	Exchange:   "",
+	SymbolFrom: "",
+	SymbolTo:   "USD",
 }

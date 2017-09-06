@@ -3,8 +3,9 @@
 ############################# Cryptocompbeat ######################################
 
 cryptocompbeat:
-  # Defines how often an event is sent to the output
-  period: 1s
+  exchange: "BitTrex"
+  symbol_from: "BTC"
+
 
 #================================ General ======================================
 

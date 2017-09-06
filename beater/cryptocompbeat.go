@@ -2,6 +2,7 @@ package beater
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	//	"time"
 
@@ -37,15 +38,21 @@ func (bt *Cryptocompbeat) Run(b *beat.Beat) error {
 
 	var err error
 
+	//
+	// Create the Cryptocompsub object -- this object manages the subscription
+	// with CryptoCurrency.
+	//
 	ccs := Cryptocompsub{
 		Type:       "0",
-		Exchange:   "BitTrex",
-		SymbolFrom: "BTC",
-		SymbolTo:   "USD",
+		Exchange:   bt.config.Exchange,
+		SymbolFrom: bt.config.SymbolFrom,
+		SymbolTo:   bt.config.SymbolTo,
 		Data:       make(chan Cryptocompdata),
 	}
 
-	logp.Info("Sub Open")
+	//
+	// Open the connection to CryptoCurrency
+	//
 	ccs.Open()
 
 	//bt.client, err = b.Publisher.Connect()
@@ -53,60 +60,84 @@ func (bt *Cryptocompbeat) Run(b *beat.Beat) error {
 		return err
 	}
 
-	logp.Info("Run Start")
-
+	//
+	// Running Loop
+	//
 	for {
+		//
+		// Wait for channels
+		//
 		select {
+		// Check if the Cryptocompbeat has been closed
 		case <-bt.done:
 			return nil
 
+		// Check if data has been received by the Cryptocombsub
 		case data := <-ccs.Data:
-			logp.Info(data.Msg)
-
 			switch data.Type {
 			case 0:
 				break
 
 			case 1:
+				//
+				// Split the message on a tilda delimiter
+				//
 				parsed := strings.Split(data.Msg, "~")
 
-				if parsed[0] == "0" {
-					//			logp.Info("timestamp " + time.Now())
-					logp.Info("exchange " + parsed[1])
-					logp.Info("from_symbol " + parsed[2])
-					logp.Info("to_symbol " + parsed[3])
-					logp.Info("rate " + parsed[8])
-				}
+				//
+				// Parse the code in the message, which affects the
+				// size of the parsed message that was received.
+				//
+				code, _ := strconv.Atoi(parsed[0])
 
-				/*
+				switch code {
+				//
+				// Zero is a message with transaction data
+				//
+				case 0:
+					rate, _ := strconv.ParseFloat(parsed[8], 32)
+
+					logp.Info(fmt.Sprintf(
+						"%s -> %s %f (%s)",
+						parsed[2],
+						parsed[3],
+						rate,
+						parsed[1],
+					))
+
 					parsed := common.MapStr{
 						"exchange":    parsed[1],
-						"from_symbol": parsed[7],
-						"to_symbol":   parsed[8],
-						"rate":        parsed[3],
+						"symbol_from": parsed[2],
+						"symbol_to":   parsed[3],
+						"rate":        rate,
 					}
-								event := beat.Event{
-									Timestamp: time.Now(),
-									Fields: parsed,
-								}
-					logp.Info(parsed)
-					/**/
+
+					event := beat.Event{
+						Timestamp: time.Now(),
+						Fields:    parsed,
+					}
+
+					bt.client.Publish(event)
+
+					break
+
+				//
+				// By default assume the message is informative, print
+				// it to the log.
+				//
+				default:
+					logp.Info("Message: " + data.Msg)
+					break
+				}
+
 				break
 			}
 		}
-		/*
-			event := beat.Event{
-				Timestamp: time.Now(),
-				Fields: common.MapStr{
-					"type":    b.Info.Name,
-					"counter": counter,
-				},
-			}
-			bt.client.Publish(event)
-			/**/
 	}
 
-	logp.Info("Run End")
+	//
+	// Close the connection to CryptoCurrency
+	//
 	ccs.Close()
 
 	return nil
