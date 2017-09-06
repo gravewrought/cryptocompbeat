@@ -1,0 +1,5 @@
+= Cryptocompbeat Docs
+
+Welcome to the Cryptocompbeat documentation.
+
+

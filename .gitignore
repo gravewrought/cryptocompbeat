@@ -1,0 +1,8 @@
+/vendor
+/.idea
+/build
+
+.DS_Store
+/cryptocompbeat
+/cryptocompbeat.test
+*.pyc
