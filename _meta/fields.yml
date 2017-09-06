@@ -2,8 +2,23 @@
   title: cryptocompbeat
   description:
   fields:
-    - name: counter
-      type: long
+    - name: exchange
+      type: keyword
       required: true
       description: >
-        PLEASE UPDATE DOCUMENTATION
+        The exchange where the transaction took place
+    - name: symbol_from
+      type: keyword
+      required: true
+      description: >
+        The symbol the transaction is for
+    - name: symbol_to
+      type: keyword
+      required: true
+      description: >
+        The symbol the final rate is in
+    - name: rate
+      type: float
+      required: true
+      description: >
+        The rate pulled from the transaction

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	//	"time"
+	"time"
 
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
@@ -55,7 +55,7 @@ func (bt *Cryptocompbeat) Run(b *beat.Beat) error {
 	//
 	ccs.Open()
 
-	//bt.client, err = b.Publisher.Connect()
+	bt.client, err = b.Publisher.Connect()
 	if err != nil {
 		return err
 	}
