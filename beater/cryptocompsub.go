@@ -22,7 +22,7 @@ const (
 )
 
 type Cryptocompsub struct {
-	Type       string
+	Type       int
 	Exchange   string
 	SymbolFrom string
 	SymbolTo   string
@@ -60,7 +60,7 @@ func (s *Cryptocompsub) dispatch() {
 		s.Data <- Cryptocompdata{Type: 0, Msg: "Connected"}
 
 		s.Err = conn.
-			Emit("SubAdd", Cryptocompmsg{Subs: []string{fmt.Sprintf("%s~%s~%s~%s", s.Type, s.Exchange, s.SymbolFrom, s.SymbolTo)}})
+			Emit("SubAdd", Cryptocompmsg{Subs: []string{fmt.Sprintf("%d~%s~%s~%s", s.Type, s.Exchange, s.SymbolFrom, s.SymbolTo)}})
 	})
 
 	if s.Err != nil {

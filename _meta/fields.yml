@@ -2,23 +2,78 @@
   title: cryptocompbeat
   description:
   fields:
+    - name: type
+      type: keyword
+      required: true
+      description: >
+        The type of data being sent
     - name: exchange
       type: keyword
       required: true
       description: >
-        The exchange where the transaction took place
+        The exchange where the data is from
     - name: symbol_from
       type: keyword
       required: true
       description: >
-        The symbol the transaction is for
+        The symbol the data is for
     - name: symbol_to
       type: keyword
       required: true
       description: >
         The symbol the final rate is in
+    - name: flag
+      type: keyword
+      required: true
+      description: >
+        Identifying information about the data
+    - name: trade
+      type: keyword
+      required: false
+      description: >
+        Trade ID for this piece of data
+    - name: time
+      type: keyword
+      required: true
+      description: >
+        The time the data took effect
+    - name: quantity
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
     - name: rate
       type: float
       required: true
       description: >
         The rate pulled from the transaction
+    - name: total
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
+    - name: volume_from
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
+    - name: volume_to
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
+    - name: volume_24_from
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
+    - name: volume_24_to
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
+    - name: mask_int
+      type: keyword
+      required: false
+      description: >
+        ADD MORE INFO
