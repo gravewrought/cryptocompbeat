@@ -158,6 +158,10 @@ func (bt *Cryptocompbeat) SendTrade(data []string) {
 	trade, _ := strconv.ParseInt(data[5], 10, 32)
 	time_, _ := strconv.ParseInt(data[6], 10, 32)
 
+	quantity, _ := strconv.ParseFloat(data[7], 64)
+	rate, _ := strconv.ParseFloat(data[8], 64)
+	total, _ := strconv.ParseFloat(data[9], 64)
+
 	logp.Info(fmt.Sprintf(
 		"TRADE %s -> %s %s (%s)",
 		data[2],
@@ -174,9 +178,9 @@ func (bt *Cryptocompbeat) SendTrade(data []string) {
 		"flag":        flag,
 		"trade":       trade,
 		"time":        time_,
-		"quantity":    data[7],
-		"rate":        data[8],
-		"total":       data[9],
+		"quantity":    quantity,
+		"rate":        rate,
+		"total":       total,
 	}
 
 	event := beat.Event{
@@ -219,6 +223,14 @@ func (bt *Cryptocompbeat) SendCurrentTemplate(type_ string, data []string) {
 	last_update, _ := strconv.ParseInt(data[6], 10, 32)
 	last_trade_id, _ := strconv.ParseInt(data[9], 10, 32)
 
+	rate, _ := strconv.ParseFloat(data[5], 64)
+
+	last_volume_from, _ := strconv.ParseFloat(data[7], 64)
+	last_volume_to, _ := strconv.ParseFloat(data[8], 64)
+
+	volume_24_from, _ := strconv.ParseFloat(data[10], 64)
+	volume_24_to, _ := strconv.ParseFloat(data[11], 64)
+
 	mask_int, _ := strconv.ParseInt(data[12], 10, 32)
 
 	logp.Info(fmt.Sprintf(
@@ -232,13 +244,13 @@ func (bt *Cryptocompbeat) SendCurrentTemplate(type_ string, data []string) {
 		"symbol_from":    data[2],
 		"symbol_to":      data[3],
 		"flag":           flag,
-		"rate":           data[5],
+		"rate":           rate,
 		"time":           last_update,
-		"volume_from":    data[7],
-		"volume_to":      data[8],
+		"volume_from":    last_volume_from,
+		"volume_to":      last_volume_to,
 		"trade":          last_trade_id,
-		"volume_24_from": data[10],
-		"volume_24_to":   data[11],
+		"volume_24_from": volume_24_from,
+		"volume_24_to":   volume_24_to,
 		"mask_int":       mask_int,
 	}
 
