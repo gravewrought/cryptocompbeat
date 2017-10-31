@@ -28,52 +28,52 @@
       description: >
         Identifying information about the data
     - name: trade
-      type: keyword
+      type: integer
       required: false
       description: >
         Trade ID for this piece of data
     - name: time
-      type: keyword
+      type: integer
       required: true
       description: >
         The time the data took effect
     - name: quantity
-      type: keyword
+      type: long
       required: false
       description: >
         ADD MORE INFO
     - name: rate
-      type: float
+      type: long
       required: true
       description: >
         The rate pulled from the transaction
     - name: total
-      type: keyword
+      type: long
       required: false
       description: >
         ADD MORE INFO
     - name: volume_from
-      type: keyword
+      type: long
       required: false
       description: >
         ADD MORE INFO
     - name: volume_to
-      type: keyword
+      type: long
       required: false
       description: >
         ADD MORE INFO
     - name: volume_24_from
-      type: keyword
+      type: long
       required: false
       description: >
         ADD MORE INFO
     - name: volume_24_to
-      type: keyword
+      type: long
       required: false
       description: >
         ADD MORE INFO
     - name: mask_int
-      type: keyword
+      type: integer
       required: false
       description: >
         ADD MORE INFO

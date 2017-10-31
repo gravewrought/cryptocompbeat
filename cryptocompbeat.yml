@@ -3,9 +3,8 @@
 ############################# Cryptocompbeat ######################################
 
 cryptocompbeat:
-  type: 0
-  exchange: "BitTrex"
-  symbol_from: "BTC"
+  exchange: ""
+  symbol_from: ""
 
 
 #================================ General =====================================
